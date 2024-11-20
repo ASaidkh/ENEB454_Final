@@ -1,0 +1,30 @@
+# Kernel module target
+obj-m += video.o
+# obj-m += accel.o
+
+# User-level program source files
+USER_SRCS = final.c accelRead.c
+USER_OBJS = final
+
+# Kernel module build target
+all:
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+	$(MAKE) $(USER_OBJS)
+
+# Build the user-level program
+$(USER_OBJS): $(USER_SRCS)
+	gcc -Wall -o $@ $(USER_SRCS) -std=c99 -lrt
+
+# Clean both kernel module and user-level program
+clean:
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+	rm -f $(USER_OBJS)
+
+# Load command to insert kernel modules
+load:
+	insmod video.ko
+	insmod /home/root/Linux_Libraries/drivers/accel.ko
+
+unload:
+	rmmod video.ko
+	rmmod accel.ko
