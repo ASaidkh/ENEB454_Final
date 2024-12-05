@@ -77,6 +77,9 @@ int read_accel(int fd) {
 
     // Null-terminate the buffer to print it as a string
     buffer[bytesRead] = '\0';
+   // printf("Buffer: %s\n", buffer);
+    //printf("bytesRead: %d", bytesRead);
+    // Read the data from the accelerometer
 
     // Parse the x, y, z, and scale values as integers
     if (sscanf(buffer, "%d %d %d %d %d", &deviceID, &x, &y, &z, &scale) == 5) {
@@ -84,7 +87,24 @@ int read_accel(int fd) {
         magnitude = abs(x) + abs(y) + abs(z);
         return magnitude;  // Return the magnitude
     } else {
+        //perror("Failed to parse values from the data string");
+        return -1;  // Return error if parsing fails
+    }
+
+/*
+    int attempt = 0;
+    while (sscanf(buffer, "%d %d %d %d %d", &deviceID, &x, &y, &z, &scale) != 5 && attempt < 5) {
+        attempt++;
+        usleep(5000);  // Sleep for 5 milliseconds
+    }
+
+    // Parse the x, y, z, and scale values as integers
+    if (attempt == 5) {
+        magnitude = abs(x) + abs(y) + abs(z);
+        return magnitude;  // Return the magnitude
+    } else {
         perror("Failed to parse values from the data string");
         return -1;  // Return error if parsing fails
     }
+    */
 }
