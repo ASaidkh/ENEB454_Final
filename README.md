@@ -4,4 +4,5 @@ Platformer game using pixel art drawn by Jaelyn Hui run on the DE1-SoC board. Th
 
 Developed by:
 Alim Saidkhodjeav - VGA driver, audio interface, acceloremeter interface, portion of game logic
+
 Jaelyn Hui - Animation & game logic
